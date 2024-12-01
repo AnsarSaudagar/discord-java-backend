@@ -46,9 +46,6 @@ public class AuthenticationService {
 
     public User authenticate(LoginUserDto data){
         User user = userRepository.findByEmail(data.getEmail()).orElseThrow();
-//        if (!passwordEncoder.matches(data.getPassword(), "$2a$10$9EB5fTHsEkIfvRX3zayj6.9/g1HHUfYviTYBFrRHQCrN5R49QiSM2")) {
-//            throw new RuntimeException("Invalid credentials");
-//        }
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                     data.getEmail(),
