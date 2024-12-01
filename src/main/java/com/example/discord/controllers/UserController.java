@@ -16,7 +16,6 @@ public class UserController {
     public ResponseEntity<?> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
-        System.out.println(currentUser);
 
         return ResponseEntity.ok(currentUser);
     }

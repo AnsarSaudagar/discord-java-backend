@@ -26,8 +26,12 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     *
+     * @param data
+     * @return user
+     */
     public User signup(RegisterUserDto data){
-        System.out.println(data.getEmail());
         User user = new User(
             data.getDisplay_name(),
             data.getUsername(),
