@@ -33,23 +33,40 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(String email) {
-        return generateToken(new HashMap<>(), email);
+    public String generateToken(String email, Long id) {
+        return generateToken(new HashMap<>(), email, id);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, String email) {
-        return buildToken(extraClaims, email, jwtExpiration);
+    public String generateToken(Map<String, Object> extraClaims, String email, long id) {
+        return buildToken(extraClaims, email, id,jwtExpiration);
     }
 
     public long getExpirationTime() {
         return jwtExpiration;
     }
 
+//    private String buildToken(
+//            Map<String, Object> extraClaims,
+//            String email,
+//            long expiration
+//    ) {
+//        return Jwts
+//                .builder()
+//                .setClaims(extraClaims)
+//                .setSubject(email)
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+//                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+//                .compact();
+//    }
+
     private String buildToken(
             Map<String, Object> extraClaims,
             String email,
+            long id,
             long expiration
     ) {
+        extraClaims.put("id" , id);
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
