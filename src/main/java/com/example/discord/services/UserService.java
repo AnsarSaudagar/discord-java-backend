@@ -4,6 +4,8 @@ import com.example.discord.entity.User;
 import com.example.discord.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -11,6 +13,10 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 
     public User getUserByEmail(String email){
