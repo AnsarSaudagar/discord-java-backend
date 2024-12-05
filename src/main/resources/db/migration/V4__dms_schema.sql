@@ -1,5 +1,5 @@
 CREATE TABLE direct_messages (
-    message_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     sender_id BIGINT NOT NULL,
     receiver_id BIGINT NOT NULL,
     message_text TEXT NOT NULL,

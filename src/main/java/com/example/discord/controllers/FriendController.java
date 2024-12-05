@@ -27,12 +27,12 @@ public class FriendController {
     private UserService userService;
 
     @PostMapping("/request")
-    public ResponseEntity<?> sendFriendRequest(@RequestParam String username){
+    public ResponseEntity<?> sendFriendRequest(@RequestParam String username) {
         Long currentUserId = SharedUtil.getUser().getId();
 
         User friend = userService.getUserByUsername(username);
 
-        if(friend == null){
+        if (friend == null) {
             return new ResponseEntity<>("Friend Not available", HttpStatus.NOT_FOUND);
         }
 
@@ -45,7 +45,7 @@ public class FriendController {
     }
 
     @GetMapping("/request")
-    public ResponseEntity<?> getPendingRequests(){
+    public ResponseEntity<?> getPendingRequests() {
         Long currentUserId = SharedUtil.getUser().getId();
         List<?> requests = friendService.getPendingRequests(currentUserId);
 
@@ -53,14 +53,14 @@ public class FriendController {
     }
 
     @PatchMapping("/accept-friend")
-    public ResponseEntity<?> changeFriendStatus(@RequestParam String id){
+    public ResponseEntity<?> changeFriendStatus(@RequestParam String id) {
         int friend = friendService.acceptFriend(id, Friend.FriendshipStatus.ACCEPTED);
 
         return ResponseEntity.ok(friend);
     }
 
-        @DeleteMapping("/delete-friend")
-    public ResponseEntity<?> deleteFriend(@RequestParam long id){
+    @DeleteMapping("/delete-friend")
+    public ResponseEntity<?> deleteFriend(@RequestParam long id) {
         int result = friendService.deleteFriend(id);
         return ResponseEntity.ok(result);
     }
