@@ -42,13 +42,11 @@ public class SocketIOServerRunner implements CommandLineRunner {
     }
 
     public void sendMessageToUser(String friend_id, String message) {
-        System.out.println("friend id = " + friend_id);
+
         String sessionId = userSessionMap.get(friend_id);
-        System.out.println("outside socket = " + sessionId);
         if (sessionId != null) {
             try {
                 UUID uuid = UUID.fromString(sessionId);
-                System.out.println("inside socket");
                 socketIOServer.getClient(uuid).sendEvent("private_message", message);
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid session ID: " + sessionId);
@@ -60,14 +58,17 @@ public class SocketIOServerRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Start the Socket.IO server
-        socketIOServer.start();
-        System.out.println("Socket.IO server started on port " + socketIOServer.getConfiguration().getPort());
-
-        // Add a shutdown hook to stop the server
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            socketIOServer.stop();
-            System.out.println("Socket.IO server stopped.");
-        }));
+        try {
+            socketIOServer.start(); // Start the server
+            System.out.println("Socket.IO server started on port " + socketIOServer.getConfiguration().getPort());
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                socketIOServer.stop();
+                System.out.println("Socket.IO server stopped.");
+            }));
+        } catch (Exception e) {
+            System.err.println("Error starting Socket.IO server: " + e.getMessage());
+            e.printStackTrace(); // Log the full stack trace
+            throw e; // Rethrow the exception to let Spring handle it
+        }
     }
 }

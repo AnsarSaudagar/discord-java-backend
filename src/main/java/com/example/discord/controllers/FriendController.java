@@ -37,7 +37,6 @@ public class FriendController {
         }
 
         Long friend_id = friend.getId();
-        System.out.println("trying socket");
         socketIOServerRunner.sendMessageToUser(friend_id.toString(), "hello ansar");
 
         Friend newFriendRequest = friendService.sendFriendRequest(currentUserId, friend_id);
@@ -54,7 +53,7 @@ public class FriendController {
     }
 
     @PatchMapping("/accept-friend")
-    public ResponseEntity<?> changeFriendStatus(@RequestParam long id){
+    public ResponseEntity<?> changeFriendStatus(@RequestParam String id){
         int friend = friendService.acceptFriend(id, Friend.FriendshipStatus.ACCEPTED);
 
         return ResponseEntity.ok(friend);
