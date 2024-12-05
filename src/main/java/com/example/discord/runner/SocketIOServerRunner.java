@@ -25,7 +25,7 @@ public class SocketIOServerRunner implements CommandLineRunner {
 
     private ConnectListener onConnected() {
         return client -> {
-            String userId = client.getHandshakeData().getSingleUrlParam("userId"); // Pass userId during connection
+            String userId = client.getHandshakeData().getSingleUrlParam("userId");
             if (userId != null) {
                 userSessionMap.put(userId, client.getSessionId().toString());
                 System.out.println("User connected: " + userId + " (Session: " + client.getSessionId() + ")");
@@ -59,7 +59,7 @@ public class SocketIOServerRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-            socketIOServer.start(); // Start the server
+            socketIOServer.start(); 
             System.out.println("Socket.IO server started on port " + socketIOServer.getConfiguration().getPort());
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 socketIOServer.stop();
@@ -67,8 +67,8 @@ public class SocketIOServerRunner implements CommandLineRunner {
             }));
         } catch (Exception e) {
             System.err.println("Error starting Socket.IO server: " + e.getMessage());
-            e.printStackTrace(); // Log the full stack trace
-            throw e; // Rethrow the exception to let Spring handle it
+            e.printStackTrace();
+            throw e; 
         }
     }
 }
