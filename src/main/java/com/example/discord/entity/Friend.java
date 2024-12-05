@@ -39,8 +39,6 @@ public class Friend {
         BLOCKED
     }
 
-//    private FriendshipStatus friendShipStatus;
-
     public Long getId() {
         return id;
     }
