@@ -7,11 +7,11 @@ import com.example.discord.services.FriendService;
 import com.example.discord.services.UserService;
 import com.example.discord.shared.SharedUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/friends")
@@ -24,14 +24,27 @@ public class FriendController {
     private UserService userService;
 
     @PostMapping("/request")
-    public ResponseEntity<Friend> sendFriendRequest(@RequestParam String username){
+    public ResponseEntity<?> sendFriendRequest(@RequestParam String username){
         Long currentUserId = SharedUtil.getUser().getId();
 
         User friend = userService.getUserByUsername(username);
+
+        if(friend == null){
+            return new ResponseEntity<>("Friend Not available", HttpStatus.NOT_FOUND);
+        }
+
         Long friend_id = friend.getId();
 
         Friend newFriendRequest = friendService.sendFriendRequest(currentUserId, friend_id);
 
         return ResponseEntity.ok(newFriendRequest);
+    }
+
+    @GetMapping("/request")
+    public ResponseEntity<?> getPendingRequests(){
+        Long currentUserId = SharedUtil.getUser().getId();
+        List<?> requests = friendService.getPendingRequests(currentUserId);
+
+        return ResponseEntity.ok(requests);
     }
 }
