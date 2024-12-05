@@ -22,5 +22,10 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
 
     @Modifying
     @Query(value = "UPDATE friends SET status = :status WHERE id = :id", nativeQuery = true)
-    int acceptFriend(@Param("status") Friend.FriendshipStatus status, @Param("id") long id);
+    int changeFriendStatus(@Param("status") Friend.FriendshipStatus status, @Param("id") long id);
+
+    @Modifying
+    @Query(value = "DELETE FROM friends WHERE id = :id", nativeQuery = true)
+    int deleteFriendById(@Param("id") long id);
+
 }

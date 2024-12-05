@@ -49,11 +49,17 @@ public class FriendController {
         return ResponseEntity.ok(requests);
     }
 
-    @PostMapping("/accept-request")
+    @PatchMapping("/accept-friend")
     public ResponseEntity<?> changeFriendStatus(@RequestParam long id){
         int friend = friendService.acceptFriend(id, Friend.FriendshipStatus.ACCEPTED);
 
         return ResponseEntity.ok(friend);
-
     }
+
+    @DeleteMapping("/delete-friend")
+    public ResponseEntity<?> deleteFriend(@RequestParam long id){
+        int result = friendService.deleteFriend(id);
+        return ResponseEntity.ok(result);
+    }
+
 }

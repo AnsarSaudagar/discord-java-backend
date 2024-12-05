@@ -56,9 +56,14 @@ public class FriendService {
 
     @Transactional
     public int acceptFriend(long id,Friend.FriendshipStatus status){
-        int friend = friendRepository.acceptFriend(status, id);
+        int friend = friendRepository.changeFriendStatus(status, id);
 
         return friend;
+    }
+
+    @Transactional
+    public int deleteFriend(long id){
+        return friendRepository.deleteFriendById(id);
     }
 
 }
