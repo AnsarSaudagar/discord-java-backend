@@ -1,7 +1,6 @@
 package com.example.discord.services;
 
 import com.example.discord.entity.Friend;
-import com.example.discord.entity.User;
 import com.example.discord.repositories.FriendRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,8 +4,6 @@ import com.example.discord.entity.User;
 import com.example.discord.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserService {
 

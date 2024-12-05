@@ -6,7 +6,6 @@ import com.example.discord.entity.User;
 import com.example.discord.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +45,7 @@ public class AuthenticationService {
 
     public User authenticate(LoginUserDto data){
         User user = userRepository.findByEmail(data.getEmail()).orElseThrow();
-        Authentication authentication = authenticationManager.authenticate(
+        authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                     data.getEmail(),
                     data.getPassword(),

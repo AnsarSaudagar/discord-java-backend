@@ -1,9 +1,8 @@
 package com.example.discord.controllers;
 
-
-import com.example.discord.dtos.LoginUserDto;
 import com.example.discord.entity.Friend;
 import com.example.discord.entity.User;
+import com.example.discord.runner.SocketIOServerRunner;
 import com.example.discord.services.FriendService;
 import com.example.discord.services.UserService;
 import com.example.discord.shared.SharedUtil;
@@ -22,6 +21,9 @@ public class FriendController {
     private FriendService friendService;
 
     @Autowired
+    private SocketIOServerRunner socketIOServerRunner;
+
+    @Autowired
     private UserService userService;
 
     @PostMapping("/request")
@@ -35,6 +37,8 @@ public class FriendController {
         }
 
         Long friend_id = friend.getId();
+        System.out.println("trying socket");
+        socketIOServerRunner.sendMessageToUser(friend_id.toString(), "hello ansar");
 
         Friend newFriendRequest = friendService.sendFriendRequest(currentUserId, friend_id);
 
