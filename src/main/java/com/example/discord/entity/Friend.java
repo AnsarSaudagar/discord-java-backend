@@ -33,11 +33,13 @@ public class Friend {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public enum FriendshipStatus {
+    public static enum FriendshipStatus {
         PENDING,
         ACCEPTED,
         BLOCKED
     }
+
+    private FriendshipStatus friendShipStatus;
 
     public Long getId() {
         return id;

@@ -54,4 +54,11 @@ public class FriendService {
         return result;
     }
 
+    @Transactional
+    public int acceptFriend(long id,Friend.FriendshipStatus status){
+        int friend = friendRepository.acceptFriend(status, id);
+
+        return friend;
+    }
+
 }

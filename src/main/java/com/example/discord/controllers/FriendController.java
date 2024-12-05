@@ -1,6 +1,7 @@
 package com.example.discord.controllers;
 
 
+import com.example.discord.dtos.LoginUserDto;
 import com.example.discord.entity.Friend;
 import com.example.discord.entity.User;
 import com.example.discord.services.FriendService;
@@ -46,5 +47,13 @@ public class FriendController {
         List<?> requests = friendService.getPendingRequests(currentUserId);
 
         return ResponseEntity.ok(requests);
+    }
+
+    @PostMapping("/accept-request")
+    public ResponseEntity<?> changeFriendStatus(@RequestParam long id){
+        int friend = friendService.acceptFriend(id, Friend.FriendshipStatus.ACCEPTED);
+
+        return ResponseEntity.ok(friend);
+
     }
 }

@@ -2,6 +2,7 @@ package com.example.discord.repositories;
 
 import com.example.discord.entity.Friend;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,7 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
                     "WHERE (f.user_id1 = :id or f.user_id2 = :id)", nativeQuery = true)
     List<Object[]> findUserRequests(@Param("id") long id);
 
+    @Modifying
     @Query(value = "UPDATE friends SET status = :status WHERE id = :id", nativeQuery = true)
-    boolean changeFriendStatus(@Param("status") int status, @Param("id") long id);
+    int acceptFriend(@Param("status") Friend.FriendshipStatus status, @Param("id") long id);
 }
