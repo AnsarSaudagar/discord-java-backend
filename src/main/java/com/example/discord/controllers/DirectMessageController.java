@@ -41,4 +41,13 @@ public class DirectMessageController {
         List<Map<String, Object>> dms = directMessageService.getMessages(senderId, receiver_id);
         return ResponseEntity.ok(dms);
     }
+
+    @GetMapping("/get-chat")
+    public ResponseEntity<?> getInitiatedChat() {
+        Long senderId = SharedUtil.getUser().getId();
+
+        List<Map<String, Object>> dms = directMessageService.getInitiatedMessages(senderId);
+        return ResponseEntity.ok(dms);
+    }
+    
 }

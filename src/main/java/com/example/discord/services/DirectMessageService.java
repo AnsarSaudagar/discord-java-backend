@@ -46,4 +46,19 @@ public class DirectMessageService {
         return result;
 
     }
+    public List<Map<String,Object>> getInitiatedMessages(long currentUserId){
+        List<Object[]> dms = directMessageRepository.getAllInitiatedChat(currentUserId);
+
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        for (Object[] row : dms) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("message_id", row[0]);
+            map.put("username", row[1]);
+            result.add(map);
+        }
+
+        return result;
+
+    }
 }
