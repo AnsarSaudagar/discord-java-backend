@@ -59,6 +59,14 @@ public class DirectMessageService {
         }
 
         return result;
+    }
 
+    public boolean checkInitiatedMessage(long currentUserId, long receiverId ){
+        List<Object[]> dms = directMessageRepository.getByEmptyMessageText(currentUserId, receiverId);
+        if(dms.size() == 0) {
+            return true;
+        }
+
+        return false;
     }
 }
