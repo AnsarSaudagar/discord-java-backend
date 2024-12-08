@@ -38,7 +38,7 @@ public class UserController {
         }
         return ResponseEntity.internalServerError().build();
     }
-    @GetMapping("/friend-id")
+    @GetMapping("/friend-data")
     public ResponseEntity<?> getUserById(@RequestParam long id){
         User friend = userService.getUserById(id);
 
