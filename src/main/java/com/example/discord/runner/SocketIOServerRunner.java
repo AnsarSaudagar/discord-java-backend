@@ -59,12 +59,12 @@ public class SocketIOServerRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-            socketIOServer.start(); 
-            System.out.println("Socket.IO server started on port " + socketIOServer.getConfiguration().getPort());
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                socketIOServer.stop();
-                System.out.println("Socket.IO server stopped.");
-            }));
+            // socketIOServer.start(); 
+            // System.out.println("Socket.IO server started on port " + socketIOServer.getConfiguration().getPort());
+            // Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            //     socketIOServer.stop();
+            //     System.out.println("Socket.IO server stopped.");
+            // }));
         } catch (Exception e) {
             System.err.println("Error starting Socket.IO server: " + e.getMessage());
             e.printStackTrace();

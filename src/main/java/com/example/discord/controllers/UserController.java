@@ -23,6 +23,7 @@ public class UserController {
         User currentUser = SharedUtil.getUser();
 
         if(currentUser != null){
+
             return ResponseEntity.ok(currentUser);
         }
         return ResponseEntity.internalServerError().build();
@@ -37,4 +38,16 @@ public class UserController {
         }
         return ResponseEntity.internalServerError().build();
     }
+    @GetMapping("/friend-id")
+    public ResponseEntity<?> getUserById(@RequestParam long id){
+        User friend = userService.getUserById(id);
+
+        if(friend != null){
+            return ResponseEntity.ok(friend);
+        }
+        return ResponseEntity.internalServerError().build();
+    }
+
+
+
 }
