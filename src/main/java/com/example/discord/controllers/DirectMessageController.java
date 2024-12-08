@@ -27,10 +27,10 @@ public class DirectMessageController {
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
         Long senderId = SharedUtil.getUser().getId();
 
-        if(!directMessageService.checkInitiatedMessage(senderId, messageDto.getReceiver_id())){
+        if (!directMessageService.checkInitiatedMessage(senderId, messageDto.getReceiver_id())
+                && messageDto.getMessageText() == null) {
             return ResponseEntity.ok(false);
         }
-
         DirectMessage dm = directMessageService.sendDirectMessage(senderId, messageDto.getReceiver_id(),
                 messageDto.getMessageText());
 
@@ -50,9 +50,8 @@ public class DirectMessageController {
     public ResponseEntity<?> getInitiatedChat() {
         Long senderId = SharedUtil.getUser().getId();
 
-
         List<Map<String, Object>> dms = directMessageService.getInitiatedMessages(senderId);
         return ResponseEntity.ok(dms);
     }
-    
+
 }

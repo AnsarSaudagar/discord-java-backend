@@ -54,6 +54,6 @@ public interface DirectMessageRepository extends JpaRepository<DirectMessage, Lo
             "and message_text is null", nativeQuery = true)
     List<Object[]> getAllInitiatedChat(@Param("userId") long userId);
 
-    @Query(value = "SELECT message_text from direct_messages WHERE sender_id = :senderId and receiver_id = :receiverId and  message_text is null", nativeQuery = true)
+    @Query(value = "SELECT message_text from direct_messages WHERE (sender_id = :senderId or receiver_id = :senderId) and (receiver_id = :receiverId or sender_id = :receiverId) and  message_text is null", nativeQuery = true)
     List<Object[]> getByEmptyMessageText(@Param("senderId") long senderId, @Param("receiverId") long receiverId);
 }

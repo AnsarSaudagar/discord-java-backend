@@ -67,7 +67,6 @@ public class DirectMessageService {
         if(dms.size() == 0) {
             return true;
         }
-
         return false;
     }
 }
