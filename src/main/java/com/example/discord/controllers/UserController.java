@@ -28,10 +28,7 @@ public class UserController {
 
         if (currentUser != null) {
 
-            // String url = "http://localhost:3001";
-            // ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-            // return response.getBody();
-            // System.out.println(response.getBody());
+            
 
             return ResponseEntity.ok(currentUser);
         }

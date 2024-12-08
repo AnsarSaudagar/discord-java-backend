@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.discord.dtos.MessageDto;
 import com.example.discord.entity.DirectMessage;
@@ -23,16 +24,21 @@ public class DirectMessageController {
     @Autowired
     private DirectMessageService directMessageService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @PostMapping("/send")
     public ResponseEntity<?> sendMessage(@RequestBody MessageDto messageDto) {
         Long senderId = SharedUtil.getUser().getId();
-
         if (!directMessageService.checkInitiatedMessage(senderId, messageDto.getReceiver_id())
                 && messageDto.getMessageText() == null) {
             return ResponseEntity.ok(false);
         }
         DirectMessage dm = directMessageService.sendDirectMessage(senderId, messageDto.getReceiver_id(),
                 messageDto.getMessageText());
+
+        String url = "http://localhost:3001/new-message/" + messageDto.getReceiver_id();
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         return ResponseEntity.ok(dm);
 
