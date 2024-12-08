@@ -55,6 +55,7 @@ public class DirectMessageService {
             Map<String, Object> map = new HashMap<>();
             map.put("message_id", row[0]);
             map.put("username", row[1]);
+            map.put("other_user_id", row[2]);
             result.add(map);
         }
 

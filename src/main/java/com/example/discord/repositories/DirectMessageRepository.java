@@ -21,10 +21,14 @@ public interface DirectMessageRepository extends JpaRepository<DirectMessage, Lo
             "    CASE " +
             "        WHEN dm.sender_id = :userId THEN u2.username " +
             "        ELSE u1.username " +
-            "    END AS other_username " +
+            "    END AS other_username, " +
+            "    CASE " +
+            "        WHEN dm.sender_id = :userId THEN dm.receiver_id " +
+            "        ELSE dm.sender_id " +
+            "    END AS other_user_id " +
             // " dm.sender_id AS sender_id, " +
             // " dm.receiver_id AS receiver_id " +
-            "FROM " +
+            "FROM " +   
             "    direct_messages dm " +
             "LEFT JOIN " +
             "    users u1 " +
