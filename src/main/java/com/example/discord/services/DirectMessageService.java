@@ -38,8 +38,8 @@ public class DirectMessageService {
             map.put("senderId", row[1]);
             map.put("receiverId", row[2]);
             map.put("message_text", row[3]);
-            map.put("sent_at", row[4]);
-            map.put("is_read", row[5]);
+            map.put("sender_name", row[4]);
+            map.put("sent_at", row[5]);
             result.add(map);
         }
 

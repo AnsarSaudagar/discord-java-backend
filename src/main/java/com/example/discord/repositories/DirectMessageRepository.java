@@ -12,7 +12,18 @@ import com.example.discord.entity.DirectMessage;
 @Repository
 public interface DirectMessageRepository extends JpaRepository<DirectMessage, Long> {
 
-    @Query(value = "SELECT * FROM direct_messages where sender_id=:sender_id and receiver_id=:receiver_id ", nativeQuery = true)
+    @Query(value = "SELECT " +
+            "dm.id AS message_id, " +
+            "dm.sender_id, " +
+            "dm.receiver_id, " +
+            "dm.message_text, " +
+            "u1.username AS sender_name, " +
+            "dm.sent_at " +
+            "FROM direct_messages dm " +
+            "LEFT JOIN users u1 ON u1.id = dm.sender_id " +
+            "WHERE (dm.sender_id = :sender_id OR dm.receiver_id = :sender_id) " +
+            "AND (dm.receiver_id = :receiver_id OR dm.sender_id = :receiver_id) " +
+            "AND dm.message_text IS NOT NULL", nativeQuery = true)
     List<Object[]> getByReceiverIdandSenderId(@Param("sender_id") long sender_id,
             @Param("receiver_id") long receiver_id);
 
@@ -28,7 +39,7 @@ public interface DirectMessageRepository extends JpaRepository<DirectMessage, Lo
             "    END AS other_user_id " +
             // " dm.sender_id AS sender_id, " +
             // " dm.receiver_id AS receiver_id " +
-            "FROM " +   
+            "FROM " +
             "    direct_messages dm " +
             "LEFT JOIN " +
             "    users u1 " +
