@@ -38,7 +38,7 @@ public class DirectMessageController {
                 messageDto.getMessageText());
 
         String url = "http://localhost:3001/new-message/" + messageDto.getReceiver_id();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        restTemplate.getForEntity(url, String.class);
 
         return ResponseEntity.ok(dm);
 
