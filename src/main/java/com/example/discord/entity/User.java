@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @UpdateTimestamp
     public Instant updated_at;
 
+    @Transient
+    private String profileColor;
+
     public User() {
     }
 
@@ -159,4 +162,14 @@ public class User implements UserDetails {
                 ", updated_at=" + updated_at +
                 '}';
     }
+
+    public String getProfileColor() {
+        return profileColor;
+    }
+
+    public void setProfileColor(String profileColor) {
+        this.profileColor = profileColor;
+    }
+    
+    
 }

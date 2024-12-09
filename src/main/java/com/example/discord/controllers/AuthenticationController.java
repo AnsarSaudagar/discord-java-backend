@@ -5,7 +5,9 @@ import com.example.discord.dtos.RegisterUserDto;
 import com.example.discord.entity.User;
 import com.example.discord.payload.response.LoginResponse;
 import com.example.discord.services.AuthenticationService;
+import com.example.discord.services.CacheService;
 import com.example.discord.services.JwtService;
+import java.util.Random;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,15 +22,22 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
+    private final CacheService cacheService;
+
+    private final String COLOR_KEY = "profile_color_";
+    private String[] colorArr = {"#80848E", "#3BA55C", "#FAA81A", "#F47B67", "#ED4245", "#5865F2", "#EB459E", "#404EED"};
+
+
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, CacheService cacheService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
+        this.cacheService = cacheService;
     }
 
     @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto){
         User registeredUser = authenticationService.signup(registerUserDto);
-
+        registeredUser.setProfileColor(getRandomColorOrGetCache(registeredUser.getId()));
         return ResponseEntity.ok(registeredUser);
     }
 
@@ -43,4 +52,14 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(loginResponse);
     }
+
+    private String getRandomColorOrGetCache(long user_id){
+
+        if(cacheService.getValue(COLOR_KEY + user_id ) != null){
+            return cacheService.getValue(COLOR_KEY + user_id);
+        }
+
+        int rnd = new Random().nextInt(colorArr.length);
+        return colorArr[rnd];
+    } 
 }

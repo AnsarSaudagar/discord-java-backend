@@ -38,7 +38,8 @@ public class AuthenticationService {
             "{bcrypt}" + passwordEncoder.encode(data.getPassword()),
             data.getDob()
         );
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return savedUser;
     }
 
 

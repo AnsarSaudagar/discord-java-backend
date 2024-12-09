@@ -2,7 +2,6 @@ package com.example.discord.controllers;
 
 import com.example.discord.entity.Friend;
 import com.example.discord.entity.User;
-import com.example.discord.runner.SocketIOServerRunner;
 import com.example.discord.services.FriendService;
 import com.example.discord.services.UserService;
 import com.example.discord.shared.SharedUtil;
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @RestController
@@ -21,7 +20,7 @@ public class FriendController {
     private FriendService friendService;
 
     @Autowired
-    private SocketIOServerRunner socketIOServerRunner;
+    private RestTemplate restTemplate ;
 
     @Autowired
     private UserService userService;
@@ -37,7 +36,10 @@ public class FriendController {
         }
 
         Long friend_id = friend.getId();
-        socketIOServerRunner.sendMessageToUser(friend_id.toString(), "hello ansar");
+        // socketIOServerRunner.sendMessageToUser(friend_id.toString(), "hello ansar");
+
+        String url = "http://localhost:3001/send-request/" + friend.getId();
+        restTemplate.getForEntity(url, String.class);
 
         Friend newFriendRequest = friendService.sendFriendRequest(currentUserId, friend_id);
 
@@ -53,8 +55,11 @@ public class FriendController {
     }
 
     @PatchMapping("/accept-friend")
-    public ResponseEntity<?> changeFriendStatus(@RequestParam String id) {
+    public ResponseEntity<?> changeFriendStatus(@RequestParam String id, @RequestParam long receiverId) {
         int friend = friendService.acceptFriend(id, Friend.FriendshipStatus.ACCEPTED);
+
+        String url = "http://localhost:3001/accept-request/" + receiverId;
+        restTemplate.getForEntity(url, String.class);
 
         return ResponseEntity.ok(friend);
     }

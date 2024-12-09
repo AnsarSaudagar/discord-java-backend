@@ -23,9 +23,6 @@ public class UserController {
         User currentUser = SharedUtil.getUser();
 
         if (currentUser != null) {
-
-            
-
             return ResponseEntity.ok(currentUser);
         }
         return ResponseEntity.internalServerError().build();
