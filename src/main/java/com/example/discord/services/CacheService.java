@@ -6,10 +6,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CacheService {
-
-    public CacheService(){
-
-    }
     
     @CachePut(value = "myCache", key = "#key")
     public String setValue(String key, String value) {
