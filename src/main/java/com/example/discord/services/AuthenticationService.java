@@ -33,6 +33,15 @@ public class AuthenticationService {
      * @return user
      */
     public User signup(RegisterUserDto data){
+
+        if(userRepository.existsByEmail(data.getEmail())){
+            throw new RuntimeException("Email already Exist");
+        }
+
+        if(userRepository.existsByUsername(data.getUsername())){
+            throw new RuntimeException("Username already Exist");
+        }
+
         User user = new User(
             data.getDisplay_name(),
             data.getUsername(),

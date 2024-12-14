@@ -6,6 +6,8 @@ import com.example.discord.entity.User;
 import com.example.discord.payload.response.LoginResponse;
 import com.example.discord.services.AuthenticationService;
 import com.example.discord.services.JwtService;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +29,12 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto){
-        User registeredUser = authenticationService.signup(registerUserDto);
-        return ResponseEntity.ok(registeredUser);
+        try {
+            User registeredUser = authenticationService.signup(registerUserDto);
+            return ResponseEntity.ok(registeredUser);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
